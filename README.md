@@ -1,3 +1,3 @@
 # A La Casa - ALC
 
-winget install FiloSottile.mkcert)
+winget install FiloSottile.mkcert
