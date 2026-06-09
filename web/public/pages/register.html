@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — À la Casa</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-body">
+
+  <div class="auth-container">
+    <div class="auth-brand">
+      <a href="/" class="logo">À<span>la</span>Casa</a>
+      <p class="auth-tagline">Rejoignez notre plateforme immobilière</p>
+    </div>
+
+    <div class="auth-card">
+      <h1 class="auth-title">Créer un compte</h1>
+      <form id="registerForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label>
+          <input type="text" id="username" placeholder="jean.dupont" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="votre@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-password">
+            <input type="password" id="password" placeholder="••••••••" required autocomplete="new-password">
+            <button type="button" class="toggle-password" id="togglePwd"></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirm">Confirmer le mot de passe</label>
+          <input type="password" id="confirm" placeholder="••••••••" required autocomplete="new-password">
+        </div>
+        <div id="registerError" class="form-error" hidden></div>
+        <button type="submit" class="btn btn-primary btn-full" id="submitBtn">Créer mon compte</button>
+      </form>
+      <p class="auth-switch">Déjà un compte ? <a href="/login">Se connecter</a></p>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/register.js"></script>
+</body>
+</html>

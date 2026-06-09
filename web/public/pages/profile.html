@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon profil — À la Casa</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="/" class="navbar-logo">À<span>la</span>Casa</a>
+      <div class="navbar-right">
+        <a href="/profile" class="navbar-profile">
+          <div class="avatar" id="navAvatar"></div>
+          <span class="navbar-username" id="navUsername"></span>
+        </a>
+        <button onclick="logout()" class="btn btn-ghost">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <div id="profileContent">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>

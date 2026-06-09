@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détails du bien — À la Casa</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/property.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="/" class="navbar-logo">À<span>la</span>Casa</a>
+      <div class="navbar-right">
+        <a href="/profile" class="navbar-profile">
+          <div class="avatar" id="navAvatar"></div>
+          <span class="navbar-username" id="navUsername"></span>
+        </a>
+        <button onclick="logout()" class="btn btn-ghost">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <a href="/" class="property-back">← Retour aux biens</a>
+    <div id="propertyContent">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/property.js"></script>
+</body>
+</html>

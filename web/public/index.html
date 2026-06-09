@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À la Casa — Immobilier</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="/" class="navbar-logo">À<span>la</span>Casa</a>
+      <div class="navbar-right">
+        <a href="/profile" class="navbar-profile">
+          <div class="avatar" id="navAvatar"></div>
+          <span class="navbar-username" id="navUsername"></span>
+        </a>
+        <button onclick="logout()" class="btn btn-ghost">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <div class="filter-search">
+        <span class="filter-search-icon"></span>
+        <div class="form-group" style="margin:0">
+          <input type="text" id="filterSearch" placeholder="Rechercher un bien, une ville...">
+        </div>
+      </div>
+      <div class="filter-select">
+        <select id="filterCategory">
+          <option value="">Toutes catégories</option>
+        </select>
+      </div>
+      <div class="filter-range">
+        <input type="number" id="filterMinPrice" placeholder="Prix min" min="0">
+        <span class="filter-range-sep">—</span>
+        <input type="number" id="filterMaxPrice" placeholder="Prix max" min="0">
+      </div>
+      <div class="filter-range">
+        <input type="number" id="filterMinArea" placeholder="Surface min" min="0">
+        <span class="filter-range-sep">m²</span>
+        <input type="number" id="filterMaxArea" placeholder="Surface max" min="0">
+      </div>
+      <div class="filter-actions">
+        <button class="btn btn-primary btn-sm" id="filterBtn">Filtrer</button>
+        <button class="btn-reset" id="resetBtn">Réinitialiser</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-content">
+    <div class="results-info">
+      <p class="results-count" id="resultsCount"></p>
+    </div>
+    <div id="propertyGrid" class="property-grid"></div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/home.js"></script>
+</body>
+</html>

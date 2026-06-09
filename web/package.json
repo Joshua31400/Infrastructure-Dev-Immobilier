@@ -1,0 +1,16 @@
+{
+  "name": "a-la-casa-web",
+  "version": "1.0.0",
+  "main": "web.js",
+  "scripts": {
+    "start": "node web.js",
+    "dev": "nodemon web.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

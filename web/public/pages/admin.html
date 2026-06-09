@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — À la Casa</title>
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+
+  <nav class="navbar admin-navbar">
+    <div class="navbar-inner">
+      <a href="/admin" class="navbar-logo">À<span>la</span>Casa <span class="admin-badge">Admin</span></a>
+      <div class="navbar-right">
+        <div class="navbar-profile">
+          <div class="avatar" id="navAvatar"></div>
+          <span class="navbar-username" id="navUsername"></span>
+        </div>
+        <a href="/" class="btn btn-ghost">← Site public</a>
+        <button onclick="logout()" class="btn btn-ghost">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-tabs-bar">
+    <div class="admin-tabs-inner">
+      <button class="tab-btn active" data-tab="properties" id="tabProperties"> Biens immobiliers</button>
+      <button class="tab-btn" data-tab="users" id="tabUsers" style="display:none"> Utilisateurs</button>
+      <button class="tab-btn" data-tab="analytics"> Analyses</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- ── PROPERTIES TAB ─────────────────────────────── -->
+    <div class="tab-panel active" id="panel-properties">
+      <div class="panel-card">
+        <div class="panel-toolbar">
+          <span class="panel-toolbar-title" id="propertiesTitle">Gestion des biens</span>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="panel-search">
+              <input type="text" id="propSearch" placeholder="Rechercher...">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openAddPropertyModal()">+ Ajouter un bien</button>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Description</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Surface</th>
+                <th>Agence</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="propertiesTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USERS TAB ──────────────────────────────────── -->
+    <div class="tab-panel" id="panel-users">
+      <div class="panel-card" style="margin-bottom:24px">
+        <div class="panel-toolbar">
+          <span class="panel-toolbar-title">Gestion des utilisateurs</span>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="panel-search">
+              <input type="text" id="userSearch" placeholder="Rechercher...">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openAddUserModal()">+ Ajouter un utilisateur</button>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Avatar</th>
+                <th>Utilisateur</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Inscrit le</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="6" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-toolbar">
+          <span class="panel-toolbar-title">Gestion des agences</span>
+          <button class="btn btn-primary btn-sm" onclick="openAddAgencyModal()">+ Nouvelle agence</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Gestionnaires</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="agenciesTableBody">
+              <tr><td colspan="4" style="text-align:center;padding:40px"><div class="spinner" style="margin:0 auto"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ANALYTICS TAB ──────────────────────────────── -->
+    <div class="tab-panel" id="panel-analytics">
+      <div class="stats-row" id="analyticsStats"></div>
+      <div class="analytics-grid" id="analyticsGrid">
+        <div class="chart-card chart-card-full" style="text-align:center;padding:60px">
+          <div class="spinner" style="margin:0 auto"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PROPERTY MODAL ─────────────────────────────────── -->
+  <div class="modal-overlay" id="propertyModal">
+    <div class="modal" style="max-width:680px">
+      <div class="modal-header">
+        <h2 class="modal-title" id="propertyModalTitle">Ajouter un bien</h2>
+        <button class="modal-close" onclick="closeModal('propertyModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Catégorie</label>
+            <input type="text" id="propCategory" placeholder="Résidentiel, Commercial...">
+          </div>
+          <div class="form-group">
+            <label>Agence</label>
+            <select id="propAgency"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prix (€)</label>
+            <input type="number" id="propPrice" placeholder="250000" min="0">
+          </div>
+          <div class="form-group">
+            <label>Surface (m²)</label>
+            <input type="number" id="propArea" placeholder="120" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="propDesc" placeholder="Décrivez le bien..."></textarea>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:16px">
+          <p style="font-size:0.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">Adresse du bien</p>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group">
+              <label>Numéro</label>
+              <input type="text" id="propAddrNumber" placeholder="12">
+            </div>
+            <div class="form-group">
+              <label>Code postal</label>
+              <input type="text" id="propAddrPostal" placeholder="75001">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px">
+            <label>Rue</label>
+            <input type="text" id="propAddrStreet" placeholder="Rue de la Paix">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Quartier</label>
+              <input type="text" id="propAddrNeighborhood" placeholder="Centre">
+            </div>
+            <div class="form-group">
+              <label>Ville</label>
+              <input type="text" id="propAddrCity" placeholder="Paris">
+            </div>
+          </div>
+        </div>
+        <div id="propPicturesSection">
+          <p style="font-size:0.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Photos existantes</p>
+          <div class="pictures-manager" id="existingPictures"></div>
+          <label style="font-size:0.85rem;font-weight:600;margin-bottom:6px;display:block">Ajouter des photos</label>
+          <input type="file" id="propPictures" multiple accept="image/*" style="margin-bottom:10px">
+          <div class="pictures-manager" id="newPicturesPreview"></div>
+        </div>
+        <div id="propError" class="form-error" hidden></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('propertyModal')">Annuler</button>
+        <button class="btn btn-primary" id="propSubmitBtn" onclick="submitProperty()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── USER MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="userModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="userModalTitle">Ajouter un utilisateur</h2>
+        <button class="modal-close" onclick="closeModal('userModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom d'utilisateur</label>
+            <input type="text" id="userUsername" placeholder="jean.dupont">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="userEmail" placeholder="jean@exemple.com">
+          </div>
+        </div>
+        <div class="form-group" id="userPasswordGroup">
+          <label>Mot de passe</label>
+          <input type="password" id="userPassword" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label>Rôle</label>
+          <div class="role-options" id="roleOptions">
+            <div class="role-option selected" data-role="client"> Client</div>
+            <div class="role-option" data-role="manager"> Gestionnaire</div>
+            <div class="role-option" data-role="admin"> Administrateur</div>
+          </div>
+        </div>
+        <div id="userError" class="form-error" hidden></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('userModal')">Annuler</button>
+        <button class="btn btn-primary" id="userSubmitBtn" onclick="submitUser()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AGENCY MODAL ───────────────────────────────────── -->
+  <div class="modal-overlay" id="agencyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="agencyModalTitle">Nouvelle agence</h2>
+        <button class="modal-close" onclick="closeModal('agencyModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Nom de l'agence</label>
+          <input type="text" id="agencyName" placeholder="Agence Paris Centre">
+        </div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:16px">
+          <p style="font-size:0.82rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">Adresse</p>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group">
+              <label>Numéro</label>
+              <input type="text" id="agencyAddrNumber" placeholder="1">
+            </div>
+            <div class="form-group">
+              <label>Code postal</label>
+              <input type="text" id="agencyAddrPostal" placeholder="75001">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px">
+            <label>Rue</label>
+            <input type="text" id="agencyAddrStreet" placeholder="Rue de Rivoli">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Quartier</label>
+              <input type="text" id="agencyAddrNeighborhood" placeholder="1er arr.">
+            </div>
+            <div class="form-group">
+              <label>Ville</label>
+              <input type="text" id="agencyAddrCity" placeholder="Paris">
+            </div>
+          </div>
+        </div>
+        <div id="agencyError" class="form-error" hidden></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('agencyModal')">Annuler</button>
+        <button class="btn btn-primary" id="agencySubmitBtn" onclick="submitAgency()">Créer l'agence</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ASSIGN MANAGER MODAL ─────────────────────────── -->
+  <div class="modal-overlay" id="assignManagerModal">
+    <div class="modal" style="max-width:440px">
+      <div class="modal-header">
+        <h2 class="modal-title">Assigner un gestionnaire</h2>
+        <button class="modal-close" onclick="closeModal('assignManagerModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:4px">Agence : <strong id="assignAgencyName" style="color:var(--dark)"></strong></p>
+        <div class="form-group" style="margin-top:12px">
+          <label>Choisir un gestionnaire</label>
+          <select id="assignManagerSelect">
+            <option value="">— Sélectionner —</option>
+          </select>
+        </div>
+        <div id="assignManagerError" class="form-error" hidden></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('assignManagerModal')">Annuler</button>
+        <button class="btn btn-primary" id="assignManagerBtn" onclick="submitAssignManager()">Assigner</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONFIRM MODAL ──────────────────────────────────── -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal" style="max-width:420px">
+      <div class="modal-header">
+        <h2 class="modal-title" id="confirmTitle">Confirmer la suppression</h2>
+        <button class="modal-close" onclick="closeModal('confirmModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-text" id="confirmText"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Annuler</button>
+        <button class="btn btn-danger" id="confirmOkBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/api-client.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
