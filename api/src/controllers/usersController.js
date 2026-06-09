@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const db     = require('../config/db');
+const { uploadImage, deleteImage } = require('../utils/minio');
 
 const parse = (v) => {
   if (v === null || v === undefined) return null;
@@ -204,4 +205,28 @@ const remove = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-module.exports = { getAll, getById, update, promote, remove };
+// POST /api/users/:id/picture — own account or admin
+const uploadPicture = async (req, res, next) => {
+  try {
+    const targetId = parseInt(req.params.id);
+    if (req.user.id !== targetId && req.user.role !== 'admin')
+      return res.status(403).json({ error: 'Forbidden' });
+
+    if (!req.file)
+      return res.status(400).json({ error: 'No image provided' });
+
+    const [rows] = await db.query('SELECT picture FROM users WHERE id = ?', [targetId]);
+    if (!rows.length) return res.status(404).json({ error: 'User not found' });
+
+    if (rows[0].picture) {
+      try { await deleteImage(rows[0].picture); } catch {}
+    }
+
+    const url = await uploadImage(req.file);
+    await db.query('UPDATE users SET picture = ? WHERE id = ?', [url, targetId]);
+
+    return res.json({ success: true, url });
+  } catch (err) { next(err); }
+};
+
+module.exports = { getAll, getById, update, promote, remove, uploadPicture };
