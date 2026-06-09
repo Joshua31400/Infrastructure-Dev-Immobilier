@@ -102,8 +102,8 @@ function renderPropertiesTable(props) {
       <td>${p.sold ? '<span class="badge badge-error">Vendu</span>' : '<span class="badge badge-success">Disponible</span>'}</td>
       <td>
         <div class="table-actions">
-          <button class="btn-icon-action btn-edit" title="Modifier" onclick="openEditPropertyModal(${p.id})"></button>
-          <button class="btn-icon-action btn-delete" title="Supprimer" onclick="confirmDeleteProperty(${p.id})"></button>
+          <button class="btn-icon-action btn-edit" title="Modifier" onclick="openEditPropertyModal(${p.id})">✏️</button>
+          <button class="btn-icon-action btn-delete" title="Supprimer" onclick="confirmDeleteProperty(${p.id})">🗑️</button>
         </div>
       </td>
     </tr>`;
@@ -316,9 +316,9 @@ function renderUsersTable(users) {
       <td class="mono">${formatDate(u.created_at)}</td>
       <td>
         <div class="table-actions">
-          <button class="btn-icon-action btn-edit" title="Modifier" onclick="openEditUserModal(${u.id})"></button>
-          <button class="btn-icon-action btn-promote" title="Changer le rôle" onclick="openPromoteModal(${u.id})"></button>
-          ${u.id !== currentUser.id ? `<button class="btn-icon-action btn-delete" title="Supprimer" onclick="confirmDeleteUser(${u.id})"></button>` : ''}
+          <button class="btn-icon-action btn-edit" title="Modifier" onclick="openEditUserModal(${u.id})">✏️</button>
+          <button class="btn-icon-action btn-promote" title="Changer le rôle" onclick="openPromoteModal(${u.id})">🔑</button>
+          ${u.id !== currentUser.id ? `<button class="btn-icon-action btn-delete" title="Supprimer" onclick="confirmDeleteUser(${u.id})">🗑️</button>` : ''}
         </div>
       </td>
     </tr>`;
@@ -485,8 +485,8 @@ function renderAgenciesTable(agencies) {
       <td>${managerTags}</td>
       <td>
         <div class="table-actions">
-          <button class="btn-icon-action btn-promote" title="Assigner un gestionnaire" onclick="openAssignManagerModal(${a.id})"></button>
-          <button class="btn-icon-action btn-delete" title="Supprimer" onclick="confirmDeleteAgency(${a.id})"></button>
+          <button class="btn-icon-action btn-promote" title="Assigner un gestionnaire" onclick="openAssignManagerModal(${a.id})">👤</button>
+          <button class="btn-icon-action btn-delete" title="Supprimer" onclick="confirmDeleteAgency(${a.id})">🗑️</button>
         </div>
       </td>
     </tr>`;

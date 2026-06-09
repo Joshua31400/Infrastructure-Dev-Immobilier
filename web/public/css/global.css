@@ -77,7 +77,7 @@ input, select, textarea { font-family: var(--font-global); }
   letter-spacing: -0.5px;
 }
 
-.navbar-logo span {
+.navbar-logo span:not(.admin-badge) {
   color: var(--primary);
 }
 

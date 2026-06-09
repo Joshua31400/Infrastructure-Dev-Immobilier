@@ -32,3 +32,6 @@ desktop.ini
 
 # Coverage
 coverage/
+
+# SSL certificates
+docker/nginx/certs/*.pem

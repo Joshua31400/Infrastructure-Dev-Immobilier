@@ -15,7 +15,7 @@ const uploadImage = async (file) => {
   await client.putObject(BUCKET, filename, file.buffer, file.size, {
     'Content-Type': file.mimetype,
   });
-  return `${process.env.MINIO_ENDPOINT}:${process.env.MINIO_PORT}/${BUCKET}/${filename}`;
+  return `${process.env.MINIO_PUBLIC_URL}/${BUCKET}/${filename}`;
 };
 
 const deleteImage = async (url) => {

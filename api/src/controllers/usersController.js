@@ -50,7 +50,7 @@ const getAll = async (req, res, next) => {
 
     const [rows] = await db.query(
       `SELECT
-        u.id, u.picture, u.username, u.email, u.role,
+        u.id, u.picture, u.username, u.email, u.role, u.created_at,
         JSON_OBJECT('number', a.number, 'street', a.street, 'neighborhood', a.neighborhood,
                     'city', a.city, 'postalCode', a.postal_code) AS address,
         ${REAL_STATES_SUBQUERY}
@@ -79,7 +79,7 @@ const getById = async (req, res, next) => {
 
     const [rows] = await db.query(
       `SELECT
-        u.id, u.picture, u.username, u.email, u.role,
+        u.id, u.picture, u.username, u.email, u.role, u.created_at,
         JSON_OBJECT('number', a.number, 'street', a.street, 'neighborhood', a.neighborhood,
                     'city', a.city, 'postalCode', a.postal_code) AS address,
         ${REAL_STATES_SUBQUERY}
